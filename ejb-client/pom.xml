@@ -9,6 +9,16 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.openejb</groupId>
+            <artifactId>openejb-client</artifactId>
+            <version>4.7.5</version>
+            <scope>runtime</scope>
+        </dependency>
+
+    </dependencies>
+
     <artifactId>ejb-client</artifactId>
 
 
