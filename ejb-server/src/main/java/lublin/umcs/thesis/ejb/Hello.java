@@ -4,5 +4,5 @@ import javax.ejb.Remote;
 
 @Remote
 public interface Hello {
-	void sayHello(String from);
+  void sayHello(String from);
 }

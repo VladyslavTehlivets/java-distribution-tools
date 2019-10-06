@@ -22,7 +22,16 @@
         <module>rmi-server</module>
         <module>corba-common-api</module>
         <module>rmi-common-api</module>
+        <module>board-game-rent</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.10</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
