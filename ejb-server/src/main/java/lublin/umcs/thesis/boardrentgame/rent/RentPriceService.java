@@ -1,6 +1,5 @@
 package lublin.umcs.thesis.boardrentgame.rent;
 
-import lombok.RequiredArgsConstructor;
 import lublin.umcs.thesis.boardrentgame.domain.boardgame.BoardGame;
 import lublin.umcs.thesis.boardrentgame.domain.boardgame.DefaultRebatePolicy;
 import lublin.umcs.thesis.boardrentgame.domain.boardgame.GameRebatePolicy;
@@ -10,19 +9,23 @@ import lublin.umcs.thesis.boardrentgame.domain.boardgame.RebateFor10Rent;
 import lublin.umcs.thesis.boardrentgame.domain.rent.DayCount;
 import lublin.umcs.thesis.boardrentgame.domain.rent.GameRent;
 import lublin.umcs.thesis.boardrentgame.domain.rent.PriceCalculateException;
-import lublin.umcs.thesis.boardrentgame.domain.user.UserRepository;
+import lublin.umcs.thesis.boardrentgame.domain.rent.RentPriceDomainService;
+import lublin.umcs.thesis.boardrentgame.domain.user.DomainUserRepository;
 
-@RequiredArgsConstructor
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+
 // TODO: 10/6/19 service
-public class RentPriceService {
+@Stateless
+public class RentPriceService implements RentPriceDomainService {
 
-  // TODO: 10/6/19 repositories
-  private final UserRepository userRepository;
+  @EJB
+  private DomainUserRepository domainUserRepository;
 
-  public Price countPrice(final GameRent gameRent, final PriceCurrency priceCurrency) {
+  @Override public Price countPrice(final GameRent gameRent, final PriceCurrency priceCurrency) {
 
     final GameRebatePolicy gameRebatePolicy =
-        userRepository.isUserWithRebate(gameRent.getUser())
+            domainUserRepository.isUserWithRebate(gameRent.getUser())
             ? new RebateFor10Rent()
             : new DefaultRebatePolicy();
 

@@ -1,14 +1,35 @@
 package lublin.umcs.thesis.boardrentgame.user;
 
 import lublin.umcs.thesis.boardrentgame.domain.user.User;
-import lublin.umcs.thesis.boardrentgame.domain.user.UserRepository;
+import lublin.umcs.thesis.boardrentgame.domain.user.DomainUserRepository;
+import lublin.umcs.thesis.boardrentgame.domain.user.UserId;
+import lublin.umcs.thesis.boardrentgame.infrastructure.user.UserRepository;
 
-public class UserJpaRepository implements UserRepository {
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
+
+@Stateless
+public class UserJpaRepository implements DomainUserRepository, UserRepository {
+
+  @PersistenceContext(unitName = "lublin.umcs.thesis", type = PersistenceContextType.EXTENDED)
+  private EntityManager entityManager;
+
   @Override
-  public void save(final User user) {}
+  public void save(final User user) {
+    entityManager.persist(user);
+  }
 
   @Override
   public boolean isUserWithRebate(final User user) {
-    return false;
+    return entityManager.find(UserPersistence.class, user.getUserId().getValue())
+            .getUserId()
+            .equals("10");
+  }
+
+  @Override public User loadById(UserId userId) {
+    return entityManager.find(UserPersistence.class, userId.getValue())
+            .toUser();
   }
 }

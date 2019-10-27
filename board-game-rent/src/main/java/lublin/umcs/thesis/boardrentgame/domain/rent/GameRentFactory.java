@@ -13,7 +13,7 @@ import java.util.UUID;
 // TODO: 10/6/19 component
 public class GameRentFactory {
 
-  public GameRent create(final User user, final List<BoardGame> games, final Long dayCount) {
+  public static GameRent create(final User user, final List<BoardGame> games, final Long dayCount) {
 
     return GameRent.builder()
         .dayCount(new DayCount(dayCount))

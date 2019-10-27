@@ -1,23 +1,27 @@
 package lublin.umcs.thesis.boardrentgame.rent;
 
-import lombok.RequiredArgsConstructor;
 import lublin.umcs.thesis.boardrentgame.domain.boardgame.Price;
 import lublin.umcs.thesis.boardrentgame.domain.boardgame.PriceCurrency;
 import lublin.umcs.thesis.boardrentgame.domain.rent.GameRent;
 import lublin.umcs.thesis.boardrentgame.domain.rent.RentDomainService;
 import lublin.umcs.thesis.boardrentgame.domain.rent.RentGameRepository;
-import lublin.umcs.thesis.boardrentgame.domain.user.UserId;
+import lublin.umcs.thesis.boardrentgame.domain.user.User;
 
-@RequiredArgsConstructor
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+
 // TODO: 10/6/19 Service
+@Stateless
 public class RentGameDomainService implements RentDomainService {
 
-  private final RentGameRepository rentGameRepository;
-  private final RentPriceService rentPriceService;
+  @EJB
+  private RentGameRepository rentGameRepository;
+  @EJB
+  private RentPriceService rentPriceService;
 
   @Override
-  public boolean isPossibleToRealizeRentByUser(final GameRent gameRent, final UserId userId) {
-    return rentGameRepository.hasNoneUnfinishedRents(userId);
+  public boolean isPossibleToRealizeRentByUser(final GameRent gameRent, final User user) {
+    return rentGameRepository.hasNoneUnfinishedRents(user);
   }
 
   @Override

@@ -1,22 +1,22 @@
 package lublin.umcs.thesis.boardrentgame.infrastructure.gamerent;
 
-import lombok.RequiredArgsConstructor;
 import lublin.umcs.thesis.boardrentgame.domain.rent.GameRent;
 import lublin.umcs.thesis.boardrentgame.domain.rent.GameRentId;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 
 @Stateless
-@RequiredArgsConstructor
 public class GameRentJpaRepository implements GameRentRepository {
 
-  @PersistenceContext private final EntityManager entityManager;
+  @PersistenceContext(unitName = "lublin.umcs.thesis", type = PersistenceContextType.EXTENDED)
+  private EntityManager entityManager;
 
   @Override
   public GameRent loadGameRentId(final GameRentId gameRentId) {
-    return null;
+    return entityManager.find(GameRentPersistence.class, gameRentId.getValue()).toGameRent();
   }
 
   @Override

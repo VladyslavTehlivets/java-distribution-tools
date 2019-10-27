@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lublin.umcs.thesis.boardrentgame.domain.user.User;
+import lublin.umcs.thesis.boardrentgame.domain.user.UserId;
+import lublin.umcs.thesis.boardrentgame.domain.user.UserName;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -23,4 +25,8 @@ public class UserPersistence {
     userId = user.getUserId().getValue();
     userName = user.getUserName().getValue();
   }
+
+	public User toUser() {
+		return new User(new UserId(userId), new UserName(userName));
+	}
 }
