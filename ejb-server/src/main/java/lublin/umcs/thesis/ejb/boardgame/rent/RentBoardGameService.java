@@ -5,11 +5,11 @@ import lublin.umcs.thesis.boardrentgame.domain.boardgame.Price;
 import lublin.umcs.thesis.boardrentgame.domain.boardgame.PriceCurrency;
 import lublin.umcs.thesis.boardrentgame.domain.rent.GameRent;
 import lublin.umcs.thesis.boardrentgame.domain.rent.GameRentFactory;
-import lublin.umcs.thesis.boardrentgame.domain.rent.RentDomainService;
 import lublin.umcs.thesis.boardrentgame.domain.user.User;
 import lublin.umcs.thesis.boardrentgame.domain.user.UserId;
 import lublin.umcs.thesis.boardrentgame.infrastructure.boardgame.BoardGameRepository;
-import lublin.umcs.thesis.boardrentgame.infrastructure.user.UserRepository;
+import lublin.umcs.thesis.boardrentgame.rent.RentDomainService;
+import lublin.umcs.thesis.boardrentgame.user.UserRepository;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;

@@ -23,6 +23,7 @@
         <module>corba-common-api</module>
         <module>rmi-common-api</module>
         <module>board-game-rent</module>
+        <module>board-game-rent-ear</module>
     </modules>
 
     <dependencies>

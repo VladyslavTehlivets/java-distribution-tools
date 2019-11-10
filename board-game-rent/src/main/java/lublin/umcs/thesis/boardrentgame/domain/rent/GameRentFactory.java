@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-// TODO: 10/6/19 component
 public class GameRentFactory {
 
   public static GameRent create(final User user, final List<BoardGame> games, final Long dayCount) {

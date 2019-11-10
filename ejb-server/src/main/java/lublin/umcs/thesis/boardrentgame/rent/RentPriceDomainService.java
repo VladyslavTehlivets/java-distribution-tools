@@ -1,4 +1,4 @@
-package lublin.umcs.thesis.boardrentgame.domain.rent;
+package lublin.umcs.thesis.boardrentgame.rent;
 
 import lublin.umcs.thesis.boardrentgame.domain.boardgame.Price;
 import lublin.umcs.thesis.boardrentgame.domain.boardgame.PriceCurrency;

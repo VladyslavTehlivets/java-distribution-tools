@@ -1,8 +1,8 @@
-package lublin.umcs.thesis.boardrentgame.domain.rent;
+package lublin.umcs.thesis.boardrentgame.rent;
 
+import lublin.umcs.thesis.boardrentgame.domain.rent.GameRent;
 import lublin.umcs.thesis.boardrentgame.domain.user.User;
 
-// TODO: 10/6/19 repository
 public interface RentGameRepository {
   boolean hasNoneUnfinishedRents(User user);
 

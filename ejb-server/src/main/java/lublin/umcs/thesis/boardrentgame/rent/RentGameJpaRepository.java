@@ -1,20 +1,21 @@
 package lublin.umcs.thesis.boardrentgame.rent;
 
 import lublin.umcs.thesis.boardrentgame.domain.rent.GameRent;
-import lublin.umcs.thesis.boardrentgame.domain.rent.RentGameRepository;
 import lublin.umcs.thesis.boardrentgame.domain.rent.RentState;
 import lublin.umcs.thesis.boardrentgame.domain.user.User;
 import lublin.umcs.thesis.boardrentgame.infrastructure.gamerent.GameRentPersistence;
 
-import javax.ejb.Stateless;
+import javax.ejb.Local;
+import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
-@Stateless
+@Stateful
+@Local
 public class RentGameJpaRepository implements RentGameRepository {
 
-	@PersistenceContext(unitName = "lublin.umcs.thesis", type = PersistenceContextType.EXTENDED)
+	@PersistenceContext(unitName = "boardgame", type = PersistenceContextType.EXTENDED)
 	private EntityManager entityManager;
 
 	@Override public boolean hasNoneUnfinishedRents(final User user) {

@@ -1,19 +1,19 @@
 package lublin.umcs.thesis.boardrentgame.user;
 
 import lublin.umcs.thesis.boardrentgame.domain.user.User;
-import lublin.umcs.thesis.boardrentgame.domain.user.DomainUserRepository;
 import lublin.umcs.thesis.boardrentgame.domain.user.UserId;
-import lublin.umcs.thesis.boardrentgame.infrastructure.user.UserRepository;
 
-import javax.ejb.Stateless;
+import javax.ejb.Local;
+import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
-@Stateless
+@Stateful
+@Local({ DomainUserRepository.class, UserRepository.class })
 public class UserJpaRepository implements DomainUserRepository, UserRepository {
 
-  @PersistenceContext(unitName = "lublin.umcs.thesis", type = PersistenceContextType.EXTENDED)
+  @PersistenceContext(unitName = "boardgame", type = PersistenceContextType.EXTENDED)
   private EntityManager entityManager;
 
   @Override

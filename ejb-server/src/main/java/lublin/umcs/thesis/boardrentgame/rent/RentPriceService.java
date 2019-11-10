@@ -9,14 +9,14 @@ import lublin.umcs.thesis.boardrentgame.domain.boardgame.RebateFor10Rent;
 import lublin.umcs.thesis.boardrentgame.domain.rent.DayCount;
 import lublin.umcs.thesis.boardrentgame.domain.rent.GameRent;
 import lublin.umcs.thesis.boardrentgame.domain.rent.PriceCalculateException;
-import lublin.umcs.thesis.boardrentgame.domain.rent.RentPriceDomainService;
-import lublin.umcs.thesis.boardrentgame.domain.user.DomainUserRepository;
+import lublin.umcs.thesis.boardrentgame.user.DomainUserRepository;
 
 import javax.ejb.EJB;
+import javax.ejb.Local;
 import javax.ejb.Stateless;
 
-// TODO: 10/6/19 service
 @Stateless
+@Local
 public class RentPriceService implements RentPriceDomainService {
 
   @EJB

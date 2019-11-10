@@ -3,15 +3,17 @@ package lublin.umcs.thesis.boardrentgame.infrastructure.gamerent;
 import lublin.umcs.thesis.boardrentgame.domain.rent.GameRent;
 import lublin.umcs.thesis.boardrentgame.domain.rent.GameRentId;
 
-import javax.ejb.Stateless;
+import javax.ejb.Local;
+import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
-@Stateless
+@Stateful
+@Local
 public class GameRentJpaRepository implements GameRentRepository {
 
-  @PersistenceContext(unitName = "lublin.umcs.thesis", type = PersistenceContextType.EXTENDED)
+  @PersistenceContext(unitName = "boardgame", type = PersistenceContextType.EXTENDED)
   private EntityManager entityManager;
 
   @Override
