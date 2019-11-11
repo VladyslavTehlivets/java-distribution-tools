@@ -1,6 +1,4 @@
-package lublin.umcs.thesis.boardrentgame.user;
-
-import lublin.umcs.thesis.boardrentgame.domain.user.User;
+package lublin.umcs.thesis.boardrentgame.domain.user;
 
 public interface DomainUserRepository {
 	void save(User user);

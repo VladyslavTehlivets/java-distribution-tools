@@ -1,4 +1,4 @@
-package lublin.umcs.thesis.boardrentgame.user;
+package lublin.umcs.thesis.boardrentgame.infrastructure.user;
 
 import lublin.umcs.thesis.boardrentgame.domain.user.User;
 import lublin.umcs.thesis.boardrentgame.domain.user.UserId;

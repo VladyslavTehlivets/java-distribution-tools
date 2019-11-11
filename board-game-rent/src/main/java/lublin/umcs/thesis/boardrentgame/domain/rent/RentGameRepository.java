@@ -1,6 +1,5 @@
-package lublin.umcs.thesis.boardrentgame.rent;
+package lublin.umcs.thesis.boardrentgame.domain.rent;
 
-import lublin.umcs.thesis.boardrentgame.domain.rent.GameRent;
 import lublin.umcs.thesis.boardrentgame.domain.user.User;
 
 public interface RentGameRepository {

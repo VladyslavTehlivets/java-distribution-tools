@@ -1,7 +1,9 @@
 package lublin.umcs.thesis.boardrentgame.user;
 
+import lublin.umcs.thesis.boardrentgame.domain.user.DomainUserRepository;
 import lublin.umcs.thesis.boardrentgame.domain.user.User;
 import lublin.umcs.thesis.boardrentgame.domain.user.UserId;
+import lublin.umcs.thesis.boardrentgame.infrastructure.user.UserRepository;
 
 import javax.ejb.Local;
 import javax.ejb.Stateful;

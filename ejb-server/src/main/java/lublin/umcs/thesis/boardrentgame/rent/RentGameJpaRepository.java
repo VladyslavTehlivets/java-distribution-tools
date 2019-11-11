@@ -1,6 +1,7 @@
 package lublin.umcs.thesis.boardrentgame.rent;
 
 import lublin.umcs.thesis.boardrentgame.domain.rent.GameRent;
+import lublin.umcs.thesis.boardrentgame.domain.rent.RentGameRepository;
 import lublin.umcs.thesis.boardrentgame.domain.rent.RentState;
 import lublin.umcs.thesis.boardrentgame.domain.user.User;
 import lublin.umcs.thesis.boardrentgame.infrastructure.gamerent.GameRentPersistence;
