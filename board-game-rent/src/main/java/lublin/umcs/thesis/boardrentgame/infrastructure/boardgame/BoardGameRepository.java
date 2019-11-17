@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface BoardGameRepository {
-  List<BoardGame> findGamesByNames(String[] gameNames);
+  List<BoardGame> findGamesByNames(List<String> gameNames);
 
   List<BoardGame> findGamesByIds(Set<GameId> gameIds);
 }

@@ -4,8 +4,7 @@ import javax.ejb.Stateless;
 
 @Stateless
 public class HelloImpl implements Hello {
-  public void sayHello(String from) {
-    System.out.println("Hello from " + from + "!!");
-    System.out.flush();
+  public String sayHello(String from) {
+    return "Hello from " + from + "!!";
   }
 }

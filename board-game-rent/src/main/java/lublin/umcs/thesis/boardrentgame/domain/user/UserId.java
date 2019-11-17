@@ -11,7 +11,7 @@ public class UserId {
   private final String value;
 
   public UserId(final String value) {
-    checkArgument(Strings.isNullOrEmpty(value), "Can't be empty");
+    checkArgument(!Strings.isNullOrEmpty(value), "Can't be empty");
     this.value = value;
   }
 }

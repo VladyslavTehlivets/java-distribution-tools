@@ -13,7 +13,7 @@ import javax.persistence.PersistenceContextType;
 @Local
 public class GameRentJpaRepository implements GameRentRepository {
 
-  @PersistenceContext(unitName = "boardgame", type = PersistenceContextType.EXTENDED)
+  @PersistenceContext(unitName = "boardgame", type = PersistenceContextType.TRANSACTION)
   private EntityManager entityManager;
 
   @Override

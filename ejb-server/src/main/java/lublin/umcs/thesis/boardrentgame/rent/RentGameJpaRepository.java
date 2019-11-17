@@ -16,7 +16,7 @@ import javax.persistence.PersistenceContextType;
 @Local
 public class RentGameJpaRepository implements RentGameRepository {
 
-	@PersistenceContext(unitName = "boardgame", type = PersistenceContextType.EXTENDED)
+	@PersistenceContext(unitName = "boardgame", type = PersistenceContextType.TRANSACTION)
 	private EntityManager entityManager;
 
 	@Override public boolean hasNoneUnfinishedRents(final User user) {

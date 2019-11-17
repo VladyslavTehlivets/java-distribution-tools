@@ -16,11 +16,11 @@ import java.util.stream.Collectors;
 @Local
 public class BoardGameJpaRepository implements BoardGameRepository {
 
-  @PersistenceContext(unitName = "boardgame", type = PersistenceContextType.EXTENDED)
+  @PersistenceContext(unitName = "boardgame", type = PersistenceContextType.TRANSACTION)
   private EntityManager entityManager;
 
   @Override
-  public List<BoardGame> findGamesByNames(final String[] gameNames) {
+  public List<BoardGame> findGamesByNames(final List<String> gameNames) {
     return entityManager.createQuery("from BoardGamePersistence where name in (:gameNames)", BoardGamePersistence.class)
             .setParameter("gameNames", gameNames)
             .getResultStream()

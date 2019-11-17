@@ -15,12 +15,12 @@ import javax.persistence.PersistenceContextType;
 @Local({ DomainUserRepository.class, UserRepository.class })
 public class UserJpaRepository implements DomainUserRepository, UserRepository {
 
-  @PersistenceContext(unitName = "boardgame", type = PersistenceContextType.EXTENDED)
+  @PersistenceContext(unitName = "boardgame", type = PersistenceContextType.TRANSACTION)
   private EntityManager entityManager;
 
   @Override
   public void save(final User user) {
-    entityManager.persist(user);
+    entityManager.persist(new UserPersistence(user));
   }
 
   @Override

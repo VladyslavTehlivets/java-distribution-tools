@@ -26,7 +26,7 @@ public class RentBoardGameService implements RentBoardGameServiceRemote {
 	@EJB
 	private UserRepository userRepository;
 
-	@Override public Price rent(String userId, Long dayCount, String priceCurrency, String... gameNames) throws OperationNotSupportedException {
+	@Override public Price rent(String userId, Long dayCount, String priceCurrency, List<String> gameNames) throws OperationNotSupportedException {
 		List<BoardGame> games = boardGameRepository.findGamesByNames(gameNames);
 
 		User user = userRepository.loadById(new UserId(userId));

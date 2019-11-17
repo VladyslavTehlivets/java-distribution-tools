@@ -38,6 +38,19 @@
             <artifactId>h2</artifactId>
             <version>1.4.199</version>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomee</groupId>
+            <artifactId>openejb-core-hibernate</artifactId>
+            <version>8.0.0</version>
+            <type>pom</type>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
