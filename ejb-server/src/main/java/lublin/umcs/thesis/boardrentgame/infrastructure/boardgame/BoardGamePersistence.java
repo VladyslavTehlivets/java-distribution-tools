@@ -18,6 +18,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 
+import static java.util.Optional.ofNullable;
+
 @Entity
 @Table(name = "BOARD_GAME")
 @Getter
@@ -46,6 +48,9 @@ public class BoardGamePersistence {
             .gameDescription(new GameDescription(gameDescription))
             .gamePrice(new Price(valueAs, PriceCurrency.PLN))
             .name(new GameName(name))
+            .gameRent(ofNullable(gameRent).map(GameRentPersistence::toGameRent).orElse(null))
             .build();
   }
+
+
 }

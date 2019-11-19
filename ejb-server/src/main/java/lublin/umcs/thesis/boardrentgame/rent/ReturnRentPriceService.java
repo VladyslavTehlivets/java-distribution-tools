@@ -12,9 +12,11 @@ import lublin.umcs.thesis.boardrentgame.domain.rent.ReturnRentPriceDomainService
 import lublin.umcs.thesis.boardrentgame.domain.user.DomainUserRepository;
 
 import javax.ejb.EJB;
+import javax.ejb.Local;
 import javax.ejb.Stateless;
 
 @Stateless
+@Local
 public class ReturnRentPriceService implements ReturnRentPriceDomainService {
 
   @EJB

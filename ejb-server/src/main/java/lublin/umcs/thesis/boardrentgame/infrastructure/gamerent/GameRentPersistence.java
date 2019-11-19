@@ -3,11 +3,16 @@ package lublin.umcs.thesis.boardrentgame.infrastructure.gamerent;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lublin.umcs.thesis.boardrentgame.domain.boardgame.BoardGame;
+import lublin.umcs.thesis.boardrentgame.domain.boardgame.GameDescription;
+import lublin.umcs.thesis.boardrentgame.domain.boardgame.GameId;
+import lublin.umcs.thesis.boardrentgame.domain.boardgame.GameName;
+import lublin.umcs.thesis.boardrentgame.domain.boardgame.Price;
+import lublin.umcs.thesis.boardrentgame.domain.boardgame.PriceCurrency;
 import lublin.umcs.thesis.boardrentgame.domain.rent.DayCount;
 import lublin.umcs.thesis.boardrentgame.domain.rent.GameRent;
 import lublin.umcs.thesis.boardrentgame.domain.rent.GameRentId;
 import lublin.umcs.thesis.boardrentgame.domain.rent.RentState;
-import lublin.umcs.thesis.boardrentgame.domain.user.User;
 import lublin.umcs.thesis.boardrentgame.infrastructure.boardgame.BoardGamePersistence;
 import lublin.umcs.thesis.boardrentgame.user.UserPersistence;
 
@@ -60,18 +65,37 @@ public class GameRentPersistence {
   private Set<BoardGamePersistence> getBoardGames(final GameRent gameRent) {
     return gameRent.getBoardGames().stream()
         .map(BoardGamePersistence::new)
+            .peek(boardGamePersistence -> boardGamePersistence.setGameRent(this))
         .collect(Collectors.toSet());
   }
 
   public GameRent toGameRent() {
-    return GameRent.builder()
+    GameRent gameRent = GameRent.builder()
             .user(user.toUser())
             .gameRentId(new GameRentId(gameRentId))
             .rentDay(rentDay)
             .dayCount(new DayCount(dayCount))
             .returnDay(returnDate)
-            .boardGames(games.stream().map(BoardGamePersistence::toBoardGame).collect(Collectors.toSet()))
+            .boardGames(extractBoardGames())
             .rentState(rentState)
             .build();
+    gameRent.getBoardGames().forEach(boardGame -> boardGame.blockByRent(gameRent));
+    return gameRent;
   }
+
+  private Set<BoardGame> extractBoardGames() {
+    return games.stream()
+            .map(this::toBoardGame)
+            .collect(Collectors.toSet());
+  }
+
+  private BoardGame toBoardGame(final BoardGamePersistence boardGamePersistence) {
+    return BoardGame.builder()
+            .gameId(new GameId(boardGamePersistence.getGameId()))
+            .gameDescription(new GameDescription(boardGamePersistence.getGameDescription()))
+            .gamePrice(new Price(boardGamePersistence.getValueAs(), PriceCurrency.PLN))
+            .name(new GameName(boardGamePersistence.getName()))
+            .build();
+  }
+
 }

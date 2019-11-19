@@ -1,9 +1,11 @@
 package lublin.umcs.thesis.boardrentgame.rent;
 
+import lublin.umcs.thesis.boardrentgame.domain.boardgame.GameId;
 import lublin.umcs.thesis.boardrentgame.domain.rent.GameRent;
 import lublin.umcs.thesis.boardrentgame.domain.rent.RentGameRepository;
 import lublin.umcs.thesis.boardrentgame.domain.rent.RentState;
 import lublin.umcs.thesis.boardrentgame.domain.user.User;
+import lublin.umcs.thesis.boardrentgame.domain.user.UserId;
 import lublin.umcs.thesis.boardrentgame.infrastructure.gamerent.GameRentPersistence;
 
 import javax.ejb.Local;
@@ -37,6 +39,20 @@ public class RentGameJpaRepository implements RentGameRepository {
 
 	@Override public GameRent loadById(final GameRent gameRent) {
 		return entityManager.find(GameRentPersistence.class, gameRent.getGameRentId().getValue())
+				.toGameRent();
+	}
+
+	@Override public GameRent findByGameIdAndUserId(final GameId gameId, final UserId userId) {
+		return entityManager.createQuery(
+				"select grp "
+						+ "from GameRentPersistence grp "
+						+ "join grp.games gp "
+						+ "where grp.user.id = :user_id "
+						+ "and gp.gameId = :game_id  ",
+				GameRentPersistence.class)
+				.setParameter("user_id", userId.getValue())
+				.setParameter("game_id", gameId.getValue())
+				.getSingleResult()
 				.toGameRent();
 	}
 }

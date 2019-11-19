@@ -47,14 +47,17 @@ public class GameRent {
     final int rentPeriod = Period.between(rentDay, returnDay).getDays();
     if (rentPeriod > dayCount.getValue()) {
       this.rentState = RentState.EXPIRED;
+      this.boardGames.forEach(BoardGame::unBlock);
       return new Settlement(Settlement.SettlementSide.USER, rentPeriod - dayCount.getValue());
     } else {
       this.rentState = RentState.RETURNED;
+      this.boardGames.forEach(BoardGame::unBlock);
       return new Settlement(Settlement.SettlementSide.SYSTEM, dayCount.getValue() - rentPeriod);
     }
   }
 
   public void rentGame() {
     this.rentState = RentState.RENT;
+    this.boardGames.forEach(boardGame -> boardGame.blockByRent(this));
   }
 }
