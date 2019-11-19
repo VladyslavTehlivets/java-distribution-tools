@@ -8,7 +8,7 @@ public enum PriceCurrency {
   EURO {
     @Override
     public BigDecimal fromPLN(final BigDecimal value) {
-      return value.divide(new BigDecimal(4.1), HALF_UP);
+      return value.divide(new BigDecimal(4.1), 2, HALF_UP);
     }
 
     @Override
@@ -19,7 +19,7 @@ public enum PriceCurrency {
   DOLLAR {
     @Override
     public BigDecimal fromPLN(final BigDecimal value) {
-      return value.divide(new BigDecimal(3.67), HALF_UP);
+      return value.divide(new BigDecimal(3.67), 2, HALF_UP);
     }
 
     @Override

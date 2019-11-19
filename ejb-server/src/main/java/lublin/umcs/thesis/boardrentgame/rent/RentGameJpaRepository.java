@@ -28,11 +28,11 @@ public class RentGameJpaRepository implements RentGameRepository {
 				.setParameter("user_id", user.getUserId().getValue())
 				.setParameter("unfinished_states", RentState.unfinishedStates())
 				.getResultList()
-				.size() > 0;
+				.size() == 0;
 	}
 
 	@Override public void save(final GameRent gameRent) {
-		entityManager.persist(new GameRentPersistence(gameRent));
+		entityManager.merge(new GameRentPersistence(gameRent));
 	}
 
 	@Override public GameRent loadById(final GameRent gameRent) {

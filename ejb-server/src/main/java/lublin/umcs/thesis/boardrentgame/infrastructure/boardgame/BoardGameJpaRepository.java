@@ -1,6 +1,7 @@
 package lublin.umcs.thesis.boardrentgame.infrastructure.boardgame;
 
 import lublin.umcs.thesis.boardrentgame.domain.boardgame.BoardGame;
+import lublin.umcs.thesis.boardrentgame.domain.boardgame.DomainBoardGameRepository;
 import lublin.umcs.thesis.boardrentgame.domain.boardgame.GameId;
 
 import javax.ejb.Local;
@@ -13,8 +14,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Stateful
-@Local
-public class BoardGameJpaRepository implements BoardGameRepository {
+@Local({ BoardGameRepository.class, DomainBoardGameRepository.class })
+public class BoardGameJpaRepository implements BoardGameRepository, DomainBoardGameRepository {
 
   @PersistenceContext(unitName = "boardgame", type = PersistenceContextType.TRANSACTION)
   private EntityManager entityManager;
@@ -35,5 +36,9 @@ public class BoardGameJpaRepository implements BoardGameRepository {
             .getResultStream()
             .map(BoardGamePersistence::toBoardGame)
             .collect(Collectors.toList());
+  }
+
+  @Override public void save(final BoardGame boardGame) {
+    entityManager.persist(new BoardGamePersistence(boardGame));
   }
 }

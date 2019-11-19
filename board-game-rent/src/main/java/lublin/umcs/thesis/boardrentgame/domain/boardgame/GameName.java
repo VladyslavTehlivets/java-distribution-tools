@@ -11,7 +11,7 @@ public class GameName {
   private final String value;
 
   public GameName(final String value) {
-    checkArgument(isNullOrEmpty(value), "Can't be empty");
+    checkArgument(!isNullOrEmpty(value), "Can't be empty");
     this.value = value;
   }
 }

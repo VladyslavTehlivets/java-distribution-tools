@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import static java.util.Objects.requireNonNull;
 
@@ -32,7 +33,7 @@ public class BoardGame {
   }
 
   public Price getRentPrice(PriceCurrency currency) {
-    final BigDecimal percent = new BigDecimal(1.5);
+    final BigDecimal percent = new BigDecimal(1.5).setScale(2, RoundingMode.HALF_UP);
     return new Price(gamePrice.getValueAs(currency).multiply(percent), currency);
   }
 }

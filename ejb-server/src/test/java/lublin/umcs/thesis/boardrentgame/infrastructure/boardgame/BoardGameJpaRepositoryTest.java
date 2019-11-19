@@ -1,14 +1,17 @@
 package lublin.umcs.thesis.boardrentgame.infrastructure.boardgame;
 
-import com.google.common.collect.Lists;
+import lublin.umcs.thesis.boardrentgame.domain.boardgame.BoardGame;
+import lublin.umcs.thesis.boardrentgame.domain.boardgame.DefaultRebatePolicy;
+import lublin.umcs.thesis.boardrentgame.domain.boardgame.DomainBoardGameRepository;
+import lublin.umcs.thesis.boardrentgame.domain.boardgame.GameDescription;
+import lublin.umcs.thesis.boardrentgame.domain.boardgame.GameId;
+import lublin.umcs.thesis.boardrentgame.domain.boardgame.GameName;
 import lublin.umcs.thesis.boardrentgame.domain.boardgame.Price;
 import lublin.umcs.thesis.boardrentgame.domain.boardgame.PriceCurrency;
 import lublin.umcs.thesis.boardrentgame.domain.user.DomainUserRepository;
 import lublin.umcs.thesis.boardrentgame.domain.user.User;
 import lublin.umcs.thesis.boardrentgame.domain.user.UserId;
 import lublin.umcs.thesis.boardrentgame.domain.user.UserName;
-import lublin.umcs.thesis.boardrentgame.infrastructure.user.UserRepository;
-import lublin.umcs.thesis.ejb.Hello;
 import lublin.umcs.thesis.ejb.boardgame.rent.RentBoardGameServiceRemote;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -46,23 +49,28 @@ class BoardGameJpaRepositoryTest {
 	}
 
 	@Test
-	void findGamesByNames() throws NamingException {
-		final Hello hello = (Hello) initialContext.lookup("HelloImplRemote");
-		System.out.println(hello.sayHello("Hello"));
-	}
-
-	@Test
 	void findGamesByIds() throws NamingException {
 
 		DomainUserRepository domainUserRepositoryLocal = (DomainUserRepository) initialContext.lookup("UserJpaRepositoryLocal");
 		domainUserRepositoryLocal.save(new User(new UserId("11"), new UserName("Tehlivets")));
 
+		BoardGame game = BoardGame.builder()
+				.gameId(new GameId("1"))
+				.gamePrice(new Price(12, PriceCurrency.PLN))
+				.name(new GameName("Beautiful game"))
+				.gameDescription(new GameDescription("Game about life"))
+				.build();
+		DomainBoardGameRepository boardGameJpaRepository = (DomainBoardGameRepository) initialContext.lookup("BoardGameJpaRepositoryLocal");
+		boardGameJpaRepository.save(game);
+
 		RentBoardGameServiceRemote rentBoardGameServiceRemote = (RentBoardGameServiceRemote) initialContext.lookup("RentBoardGameServiceRemote");
 		ArrayList<String> gameNames = new ArrayList<>();
-		gameNames.add("example game");
+		gameNames.add(game.getName().getValue());
 
-		Price rentPrice = rentBoardGameServiceRemote.rent("11", 1L, "PLN", gameNames);
+		BigDecimal rentPrice = rentBoardGameServiceRemote.rent("11", 1L, "PLN", gameNames);
 
-		Assertions.assertEquals(rentPrice.getValueAs(PriceCurrency.PLN), new BigDecimal(12));
+		Price gamePrice = game.getGamePrice();
+		Price dayPrice = new DefaultRebatePolicy().getDayPrice(gamePrice.getValueAs(PriceCurrency.PLN), PriceCurrency.PLN);
+		Assertions.assertEquals(rentPrice, dayPrice.add(gamePrice).getValueAs(PriceCurrency.PLN));
 	}
 }

@@ -11,7 +11,7 @@ public class GameRentId {
   public final String value;
 
   public GameRentId(final String value) {
-    checkArgument(isNullOrEmpty(value), "GameRentId Can't be empty");
+    checkArgument(!isNullOrEmpty(value), "GameRentId Can't be empty");
     this.value = value;
   }
 }

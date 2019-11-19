@@ -1,6 +1,5 @@
 package lublin.umcs.thesis.boardrentgame.rent;
 
-import lublin.umcs.thesis.boardrentgame.domain.boardgame.Price;
 import lublin.umcs.thesis.boardrentgame.domain.boardgame.PriceCurrency;
 import lublin.umcs.thesis.boardrentgame.domain.rent.GameRent;
 import lublin.umcs.thesis.boardrentgame.domain.rent.RentDomainService;
@@ -11,6 +10,7 @@ import lublin.umcs.thesis.boardrentgame.domain.user.User;
 import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
+import java.math.BigDecimal;
 
 @Stateless
 @Local
@@ -27,9 +27,9 @@ public class RentGameDomainService implements RentDomainService {
   }
 
   @Override
-  public Price rent(final GameRent gameRent, final PriceCurrency priceCurrency) {
+  public BigDecimal rent(final GameRent gameRent, final PriceCurrency priceCurrency) {
     gameRent.rentGame();
     rentGameRepository.save(gameRent);
-    return rentPriceService.countPrice(gameRent, priceCurrency);
+    return rentPriceService.countPrice(gameRent, priceCurrency).getValueAs(priceCurrency);
   }
 }

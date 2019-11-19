@@ -1,7 +1,6 @@
 package lublin.umcs.thesis.ejb.boardgame.rent;
 
 import lublin.umcs.thesis.boardrentgame.domain.boardgame.BoardGame;
-import lublin.umcs.thesis.boardrentgame.domain.boardgame.Price;
 import lublin.umcs.thesis.boardrentgame.domain.boardgame.PriceCurrency;
 import lublin.umcs.thesis.boardrentgame.domain.rent.GameRent;
 import lublin.umcs.thesis.boardrentgame.domain.rent.GameRentFactory;
@@ -14,6 +13,7 @@ import lublin.umcs.thesis.boardrentgame.infrastructure.user.UserRepository;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.naming.OperationNotSupportedException;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Stateless
@@ -26,7 +26,7 @@ public class RentBoardGameService implements RentBoardGameServiceRemote {
 	@EJB
 	private UserRepository userRepository;
 
-	@Override public Price rent(String userId, Long dayCount, String priceCurrency, List<String> gameNames) throws OperationNotSupportedException {
+	@Override public BigDecimal rent(String userId, Long dayCount, String priceCurrency, List<String> gameNames) throws OperationNotSupportedException {
 		List<BoardGame> games = boardGameRepository.findGamesByNames(gameNames);
 
 		User user = userRepository.loadById(new UserId(userId));

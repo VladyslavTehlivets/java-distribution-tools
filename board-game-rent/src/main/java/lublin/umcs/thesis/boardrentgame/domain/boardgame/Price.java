@@ -3,6 +3,7 @@ package lublin.umcs.thesis.boardrentgame.domain.boardgame;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import static java.util.Objects.requireNonNull;
 import static lublin.umcs.thesis.boardrentgame.domain.boardgame.PriceCurrency.PLN;
@@ -16,23 +17,23 @@ public class Price {
   public Price(final Integer value, final PriceCurrency currency) {
     this.currency = requireNonNull(currency, "Currency can't be null");
     final Integer price = requireNonNull(value, "Price can't be null");
-    this.value = currency.toPLN(new BigDecimal(price));
+    this.value = currency.toPLN(new BigDecimal(price).setScale(2, RoundingMode.HALF_UP));
   }
 
   public Price(final BigDecimal value, final PriceCurrency currency) {
     this.currency = requireNonNull(currency, "Currency can't be null");
     final BigDecimal price = requireNonNull(value, "Price can't be null");
-    this.value = currency.toPLN(price);
+    this.value = currency.toPLN(price.setScale(2, RoundingMode.HALF_UP));
   }
 
   public Price(final Double value, final PriceCurrency currency) {
     this.currency = requireNonNull(currency, "Currency can't be null");
     final Double price = requireNonNull(value, "Price can't be null");
-    this.value = currency.toPLN(new BigDecimal(price));
+    this.value = currency.toPLN(new BigDecimal(price).setScale(2, RoundingMode.HALF_UP));
   }
 
   public BigDecimal getValueAs(PriceCurrency currency) {
-    return currency.fromPLN(value);
+    return currency.fromPLN(value).setScale(2, RoundingMode.HALF_UP);
   }
 
   public Price add(final Price other) {
