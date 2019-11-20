@@ -33,7 +33,7 @@ import java.util.Properties;
 import java.util.UUID;
 
 @State(Scope.Benchmark)
-public class BoardGaameRentBusinessProcessBenchmarkTest {
+public class BoardGameRentBusinessProcessBenchmarkTest {
 
 	private static InitialContext initialContext;
 
