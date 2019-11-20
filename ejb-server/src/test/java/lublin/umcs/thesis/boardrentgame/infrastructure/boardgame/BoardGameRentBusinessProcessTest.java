@@ -27,7 +27,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Properties;
 
-class BoardGameJpaRepositoryTest {
+class BoardGameRentBusinessProcessTest {
 
 	private static InitialContext initialContext;
 
