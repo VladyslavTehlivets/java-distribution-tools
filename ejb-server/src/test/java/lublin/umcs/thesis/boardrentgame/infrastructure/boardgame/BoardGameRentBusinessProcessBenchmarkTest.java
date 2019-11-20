@@ -21,6 +21,7 @@ import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.Level;
 import org.openjdk.jmh.annotations.Mode;
+import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
@@ -31,6 +32,7 @@ import javax.naming.NamingException;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @State(Scope.Benchmark)
 public class BoardGameRentBusinessProcessBenchmarkTest {
@@ -60,6 +62,7 @@ public class BoardGameRentBusinessProcessBenchmarkTest {
 	@Benchmark
 	@Fork(value = 2, warmups = 2)
 	@BenchmarkMode(Mode.AverageTime)
+	@OutputTimeUnit(TimeUnit.NANOSECONDS)
 	public void shouldPassBusinessProcess() throws NamingException {
 		User user = new User(new UserId(UUID.randomUUID().toString()), new UserName(RandomStringUtils.random(12)));
 
