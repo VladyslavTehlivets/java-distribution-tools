@@ -1,18 +1,25 @@
 package lublin.umcs.thesis.rmi;
 
-import lublin.umcs.thesis.rmi.api.HelloInterface;
+import lublin.umcs.thesis.rmi.api.RentBoardGameService;
+import lublin.umcs.thesis.rmi.api.ReturnBoardGameService;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Arrays;
 
 public class RmiClient {
   public static void main(String[] args) {
     try {
       Registry registry = LocateRegistry.getRegistry(1100);
-      HelloInterface comp = (HelloInterface) registry.lookup("HelloServer");
-      comp.sayHello("Yeeah");
+
+      RentBoardGameService rentBoardGameService = (RentBoardGameService) registry.lookup("RentBoardGameService");
+      ReturnBoardGameService returnBoardGameService = (ReturnBoardGameService) registry.lookup("ReturnBoardGameService");
+
+      rentBoardGameService.rent("", 1L, "PLN", Arrays.asList("Beautiful game"));
+      returnBoardGameService.returnBoardGameService("", "PLN");
+
     } catch (Exception e) {
-      System.err.println("HelloInterface exception:");
+      System.err.println("RMI Exception");
       e.printStackTrace();
     }
   }
