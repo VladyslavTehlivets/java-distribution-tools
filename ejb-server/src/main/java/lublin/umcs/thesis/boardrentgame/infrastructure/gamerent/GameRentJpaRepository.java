@@ -23,7 +23,6 @@ public class GameRentJpaRepository implements GameRentRepository {
 
   @Override
   public void save(final GameRent gameRent) {
-    // TODO: 11/26/19 VTE test this
     entityManager.merge(new GameRentPersistence(gameRent));
   }
 }

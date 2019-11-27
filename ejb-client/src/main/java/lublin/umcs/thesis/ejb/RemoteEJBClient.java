@@ -16,7 +16,9 @@ public class RemoteEJBClient {
     p.put("java.naming.provider.url", "http://localhost:8080/tomee/ejb");
 
     InitialContext ic = new InitialContext(p);
-    Hello clientBean = (Hello) ic.lookup("HelloImplRemote");
-    clientBean.sayHello("Hello");
+    RentBoardGameServiceRemote rentBoardGameServiceRemote = (RentBoardGameServiceRemote) ic.lookup("RentBoardGameServiceRemote");
+    ReturnBoardGameServiceRemote returnBoardGameServiceRemote = (ReturnBoardGameServiceRemote) ic.lookup("ReturnBoardGameService");
+
+    // TODO: 11/27/19 VTE use
   }
 }
