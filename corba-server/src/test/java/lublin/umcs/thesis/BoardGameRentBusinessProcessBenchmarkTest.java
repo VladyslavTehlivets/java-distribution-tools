@@ -31,6 +31,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -44,7 +45,10 @@ public class BoardGameRentBusinessProcessBenchmarkTest {
 		RentBoardGameService rentBoardGameService = RentBoardGameServiceFactory.getSingletonInstance();
 		ReturnBoardGameService returnBoardGameService = ReturnBoardGameServiceFactory.getSingletonInstance();
 
-		context = new InitialContext();
+		Properties properties = new Properties();
+		properties.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.cosnaming.CNCtxFactory");
+		properties.put(Context.PROVIDER_URL, "iiop://localhost:1050");
+		context = new InitialContext(properties);
 		context.rebind("RentBoardGameService", rentBoardGameService);
 		context.rebind("ReturnBoardGameService", returnBoardGameService);
 	}

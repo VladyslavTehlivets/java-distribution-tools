@@ -7,12 +7,9 @@ import lublin.umcs.thesis.boardrentgame.domain.boardgame.GameName;
 import lublin.umcs.thesis.boardrentgame.domain.boardgame.Price;
 import lublin.umcs.thesis.boardrentgame.domain.boardgame.PriceCurrency;
 import lublin.umcs.thesis.boardrentgame.domain.rent.GameRent;
-import lublin.umcs.thesis.boardrentgame.domain.rent.RentGameRepository;
 import lublin.umcs.thesis.boardrentgame.domain.user.User;
 import lublin.umcs.thesis.boardrentgame.domain.user.UserId;
 import lublin.umcs.thesis.boardrentgame.domain.user.UserName;
-import lublin.umcs.thesis.rmi.RentBoardGameServiceFactory;
-import lublin.umcs.thesis.rmi.ReturnBoardGameServiceFactory;
 import lublin.umcs.thesis.rmi.api.RentBoardGameService;
 import lublin.umcs.thesis.rmi.api.ReturnBoardGameService;
 import lublin.umcs.thesis.rmi.boardrentgame.infrastructure.boardgame.BoardGameJpaRepository;
@@ -22,11 +19,9 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Fork;
-import org.openjdk.jmh.annotations.Level;
 import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Scope;
-import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 
 import javax.naming.NamingException;
@@ -43,18 +38,24 @@ import java.util.concurrent.TimeUnit;
 public class BoardGameRentBusinessProcessBenchmarkTest {
 
 	private static Registry registry;
+	private static RentBoardGameService rentBoardGameService;
+	private static ReturnBoardGameService returnBoardGameService;
+	private static RentBoardGameService rentBoardGameServiceStub;
+	private static ReturnBoardGameService returnBoardGameServiceStub;
 
-	@Setup(Level.Invocation)
-	public static void setUp() throws RemoteException {
-		RentBoardGameService rentBoardGameService = RentBoardGameServiceFactory.createServiceInstance();
-		RentBoardGameService rentBoardGameServiceStub = (RentBoardGameService) UnicastRemoteObject.exportObject(rentBoardGameService, 0);
+	static {
+		try {
+			registry = LocateRegistry.createRegistry(1100);
+			rentBoardGameService = RentBoardGameServiceFactory.createServiceInstance();
+			returnBoardGameService = ReturnBoardGameServiceFactory.createServiceInstance();
 
-		ReturnBoardGameService returnBoardGameService = ReturnBoardGameServiceFactory.createServiceInstance();
-		ReturnBoardGameService returnBoardGameServiceStub = (ReturnBoardGameService) UnicastRemoteObject.exportObject(returnBoardGameService, 0);
-
-		registry = LocateRegistry.createRegistry(1100);
-		registry.rebind("RentBoardGameService", rentBoardGameServiceStub);
-		registry.rebind("ReturnBoardGameService", returnBoardGameServiceStub);
+			rentBoardGameServiceStub = (RentBoardGameService) UnicastRemoteObject.exportObject(rentBoardGameService, 0);
+			returnBoardGameServiceStub = (ReturnBoardGameService) UnicastRemoteObject.exportObject(returnBoardGameService, 0);
+			registry.rebind("RentBoardGameService", rentBoardGameServiceStub);
+			registry.rebind("ReturnBoardGameService", returnBoardGameServiceStub);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Benchmark
@@ -62,6 +63,7 @@ public class BoardGameRentBusinessProcessBenchmarkTest {
 	@BenchmarkMode(Mode.AverageTime)
 	@OutputTimeUnit(TimeUnit.NANOSECONDS)
 	public void shouldPassBusinessProcess() throws NamingException, RemoteException, NotBoundException {
+
 		User user = new User(new UserId(UUID.randomUUID().toString()), new UserName(RandomStringUtils.random(12)));
 
 		BoardGame game = BoardGame.builder()

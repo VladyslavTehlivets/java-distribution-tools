@@ -35,19 +35,20 @@ class BoardGameRentBusinessProcessTest {
 
 	@BeforeAll
 	public static void setUp() throws RemoteException {
+		registry = LocateRegistry.createRegistry(1100);
+	}
+
+	@Test
+	void findGamesByIds() throws NamingException, RemoteException, NotBoundException {
 		RentBoardGameService rentBoardGameService = RentBoardGameServiceFactory.createServiceInstance();
 		RentBoardGameService rentBoardGameServiceStub = (RentBoardGameService) UnicastRemoteObject.exportObject(rentBoardGameService, 0);
 
 		ReturnBoardGameService returnBoardGameService = ReturnBoardGameServiceFactory.createServiceInstance();
 		ReturnBoardGameService returnBoardGameServiceStub = (ReturnBoardGameService) UnicastRemoteObject.exportObject(returnBoardGameService, 0);
 
-		registry = LocateRegistry.createRegistry(1100);
 		registry.rebind("RentBoardGameService", rentBoardGameServiceStub);
 		registry.rebind("ReturnBoardGameService", returnBoardGameServiceStub);
-	}
 
-	@Test
-	void findGamesByIds() throws NamingException, RemoteException, NotBoundException {
 		User user = new User(new UserId("11"), new UserName("Tehlivets"));
 
 		BoardGame game = BoardGame.builder()
@@ -63,16 +64,16 @@ class BoardGameRentBusinessProcessTest {
 		ArrayList<String> gameNames = new ArrayList<>();
 		gameNames.add(game.getName().getValue());
 
-		RentBoardGameService rentBoardGameService = (RentBoardGameService) registry.lookup("RentBoardGameService");
-		BigDecimal rentPrice = rentBoardGameService.rent("11", 1L, "PLN", gameNames);
+		RentBoardGameService rentBoardGameServiceRMI = (RentBoardGameService) registry.lookup("RentBoardGameService");
+		BigDecimal rentPrice = rentBoardGameServiceRMI.rent("11", 1L, "PLN", gameNames);
 
 		Price gamePrice = game.getGamePrice();
 		Price dayPrice = new DefaultRebatePolicy().getDayPrice(gamePrice.getValueAs(PriceCurrency.PLN), PriceCurrency.PLN);
 		Assertions.assertEquals(rentPrice, dayPrice.add(gamePrice).getValueAs(PriceCurrency.PLN));
 
-		ReturnBoardGameService returnBoardGameService = (ReturnBoardGameService) registry.lookup("ReturnBoardGameService");
+		ReturnBoardGameService returnBoardGameServiceRMI = (ReturnBoardGameService) registry.lookup("ReturnBoardGameService");
 		GameRent gameRent = new RentGameJpaRepository().findByGameIdAndUserId(game.getGameId(), user.getUserId());
-		BigDecimal price = returnBoardGameService.returnBoardGameService(gameRent.getGameRentId().getValue(), PriceCurrency.PLN.name());
+		BigDecimal price = returnBoardGameServiceRMI.returnBoardGameService(gameRent.getGameRentId().getValue(), PriceCurrency.PLN.name());
 		Assertions.assertNotNull(price);
 	}
 }

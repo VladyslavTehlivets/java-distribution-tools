@@ -48,6 +48,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.openjdk.jmh</groupId>
+            <artifactId>jmh-generator-annprocess</artifactId>
+            <version>1.19</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.9</version>
@@ -75,6 +81,21 @@
                         <phase>compile</phase>
                         <configuration>
                             <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                            <sources>
+                                <source>
+                                    <iiop>true</iiop>
+                                </source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>rmic-process-classes-test</id>
+                        <goals>
+                            <goal>rmic</goal>
+                        </goals>
+                        <phase>compile</phase>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/test-classes</outputDirectory>
                             <sources>
                                 <source>
                                     <iiop>true</iiop>

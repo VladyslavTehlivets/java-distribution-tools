@@ -17,7 +17,6 @@ import lublin.umcs.thesis.boardrentgame.infrastructure.boardgame.BoardGameJpaRep
 import lublin.umcs.thesis.boardrentgame.rent.RentGameJpaRepository;
 import lublin.umcs.thesis.boardrentgame.user.UserJpaRepository;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import javax.naming.Context;
@@ -26,19 +25,26 @@ import javax.naming.NamingException;
 import java.math.BigDecimal;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Properties;
 
 class BoardGameRentBusinessProcessTest {
 
 	private static Context context;
 
-	@BeforeAll
-	public static void setUp() throws RemoteException, NamingException {
-		RentBoardGameService rentBoardGameService = RentBoardGameServiceFactory.getSingletonInstance();
-		ReturnBoardGameService returnBoardGameService = ReturnBoardGameServiceFactory.getSingletonInstance();
+	static {
+		try {
+			RentBoardGameService rentBoardGameService = RentBoardGameServiceFactory.getSingletonInstance();
+			ReturnBoardGameService returnBoardGameService = ReturnBoardGameServiceFactory.getSingletonInstance();
 
-		context = new InitialContext();
-		context.rebind("RentBoardGameService", rentBoardGameService);
-		context.rebind("ReturnBoardGameService", returnBoardGameService);
+			Properties properties = new Properties();
+			properties.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.cosnaming.CNCtxFactory");
+			properties.put(Context.PROVIDER_URL, "iiop://localhost:1050");
+			context = new InitialContext(properties);
+			context.rebind("RentBoardGameService", rentBoardGameService);
+			context.rebind("ReturnBoardGameService", returnBoardGameService);
+		} catch (RemoteException | NamingException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
