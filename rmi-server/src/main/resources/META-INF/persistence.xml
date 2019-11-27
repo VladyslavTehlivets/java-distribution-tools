@@ -4,8 +4,6 @@
              version="2.0">
     <persistence-unit name="boardgame" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <jta-data-source>java:openejb/Resource/boardGame</jta-data-source>
-        <non-jta-data-source>java:openejb/Resource/boardGameNonManaged</non-jta-data-source>
 
         <class>lublin.umcs.thesis.rmi.boardrentgame.infrastructure.boardgame.BoardGamePersistence</class>
         <class>lublin.umcs.thesis.rmi.boardrentgame.infrastructure.gamerent.GameRentPersistence</class>

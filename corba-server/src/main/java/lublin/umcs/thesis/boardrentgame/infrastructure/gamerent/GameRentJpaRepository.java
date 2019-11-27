@@ -8,18 +8,15 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceUnit;
 
-public class GameRentJpaRepository implements GameRentRepository {
+import static lublin.umcs.thesis.CorbaServer.ENTITY_MANAGER;
 
-	@PersistenceUnit(unitName = "boardgame")
-	private EntityManagerFactory entityManagerFactory;
+public class GameRentJpaRepository implements GameRentRepository {
 
 	@Override
 	public GameRent loadGameRentId(final GameRentId gameRentId) {
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
-
-		EntityTransaction entityTransaction = entityManager.getTransaction();
+		EntityTransaction entityTransaction = ENTITY_MANAGER.getTransaction();
 		entityTransaction.begin();
-		GameRent gameRent = entityManager.find(GameRentPersistence.class, gameRentId.getValue()).toGameRent();
+		GameRent gameRent = ENTITY_MANAGER.find(GameRentPersistence.class, gameRentId.getValue()).toGameRent();
 
 		entityTransaction.commit();
 
@@ -28,12 +25,10 @@ public class GameRentJpaRepository implements GameRentRepository {
 
 	@Override
 	public void save(final GameRent gameRent) {
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
-
-		EntityTransaction entityTransaction = entityManager.getTransaction();
+		EntityTransaction entityTransaction = ENTITY_MANAGER.getTransaction();
 		entityTransaction.begin();
 
-		entityManager.merge(new GameRentPersistence(gameRent));
+		ENTITY_MANAGER.merge(new GameRentPersistence(gameRent));
 
 		entityTransaction.commit();
 	}

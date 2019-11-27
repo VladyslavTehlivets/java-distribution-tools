@@ -15,8 +15,8 @@ public class RmiClient {
       RentBoardGameService rentBoardGameService = (RentBoardGameService) registry.lookup("RentBoardGameService");
       ReturnBoardGameService returnBoardGameService = (ReturnBoardGameService) registry.lookup("ReturnBoardGameService");
 
-      rentBoardGameService.rent("", 1L, "PLN", Arrays.asList("Beautiful game"));
-      returnBoardGameService.returnBoardGameService("", "PLN");
+      rentBoardGameService.rent("okjn", 1L, "PLN", Arrays.asList("Beautiful game"));
+      returnBoardGameService.returnBoardGameService("sdfd", "PLN");
 
     } catch (Exception e) {
       System.err.println("RMI Exception");

@@ -9,24 +9,18 @@ import lublin.umcs.thesis.boardrentgame.domain.user.UserId;
 import lublin.umcs.thesis.rmi.boardrentgame.infrastructure.gamerent.GameRentPersistence;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
-import javax.persistence.PersistenceUnit;
+
+import static lublin.umcs.thesis.rmi.RmiServer.ENTITY_MANAGER;
 
 public class RentGameJpaRepository implements RentGameRepository {
 
-	@PersistenceUnit(unitName = "boardgame")
-	private EntityManagerFactory entityManagerFactory;
-
 	@Override public boolean hasNoneUnfinishedRents(final User user) {
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-		EntityTransaction entityTransaction = entityManager.getTransaction();
+		EntityTransaction entityTransaction = ENTITY_MANAGER.getTransaction();
 		entityTransaction.begin();
 
-		boolean result = entityManager
+		boolean result = ENTITY_MANAGER
 				.createQuery(
 						"from GameRentPersistence "
 								+ "where user.id = :user_id "
@@ -42,23 +36,21 @@ public class RentGameJpaRepository implements RentGameRepository {
 	}
 
 	@Override public void save(final GameRent gameRent) {
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-		EntityTransaction entityTransaction = entityManager.getTransaction();
+		EntityTransaction entityTransaction = ENTITY_MANAGER.getTransaction();
 		entityTransaction.begin();
 
-		entityManager.merge(new GameRentPersistence(gameRent));
+		ENTITY_MANAGER.merge(new GameRentPersistence(gameRent));
 
 		entityTransaction.commit();
 	}
 
 	@Override public GameRent loadById(final GameRent gameRent) {
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-		EntityTransaction entityTransaction = entityManager.getTransaction();
+		EntityTransaction entityTransaction = ENTITY_MANAGER.getTransaction();
 		entityTransaction.begin();
 
-		GameRent foundGameRent = entityManager.find(GameRentPersistence.class, gameRent.getGameRentId().getValue())
+		GameRent foundGameRent = ENTITY_MANAGER.find(GameRentPersistence.class, gameRent.getGameRentId().getValue())
 				.toGameRent();
 
 		entityTransaction.commit();
@@ -67,12 +59,11 @@ public class RentGameJpaRepository implements RentGameRepository {
 	}
 
 	@Override public GameRent findByGameIdAndUserId(final GameId gameId, final UserId userId) {
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-		EntityTransaction entityTransaction = entityManager.getTransaction();
+		EntityTransaction entityTransaction = ENTITY_MANAGER.getTransaction();
 		entityTransaction.begin();
 
-		GameRent gameRent = entityManager.createQuery(
+		GameRent gameRent = ENTITY_MANAGER.createQuery(
 				"select grp "
 						+ "from GameRentPersistence grp "
 						+ "join grp.games gp "

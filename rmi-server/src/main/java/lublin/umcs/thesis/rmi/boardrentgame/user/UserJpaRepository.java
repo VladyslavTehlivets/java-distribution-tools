@@ -6,35 +6,30 @@ import lublin.umcs.thesis.boardrentgame.domain.user.UserId;
 import lublin.umcs.thesis.boardrentgame.infrastructure.user.UserRepository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceUnit;
+
+import static lublin.umcs.thesis.rmi.RmiServer.ENTITY_MANAGER;
 
 public class UserJpaRepository implements DomainUserRepository, UserRepository {
 
-	@PersistenceUnit(unitName = "boardgame")
-	private EntityManagerFactory entityManagerFactory;
-
 	@Override
 	public void save(final User user) {
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-		EntityTransaction entityTransaction = entityManager.getTransaction();
+		EntityTransaction entityTransaction = ENTITY_MANAGER.getTransaction();
 		entityTransaction.begin();
 
-		entityManager.merge(new UserPersistence(user));
+		ENTITY_MANAGER.merge(new UserPersistence(user));
 
 		entityTransaction.commit();
 	}
 
 	@Override
 	public boolean isUserWithRebate(final User user) {
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-		EntityTransaction entityTransaction = entityManager.getTransaction();
+		EntityTransaction entityTransaction = ENTITY_MANAGER.getTransaction();
 		entityTransaction.begin();
 
-		boolean result = entityManager.find(UserPersistence.class, user.getUserId().getValue())
+		boolean result = ENTITY_MANAGER.find(UserPersistence.class, user.getUserId().getValue())
 				.getUserId()
 				.equals("10");
 
@@ -44,12 +39,11 @@ public class UserJpaRepository implements DomainUserRepository, UserRepository {
 	}
 
 	@Override public User loadById(UserId userId) {
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-		EntityTransaction entityTransaction = entityManager.getTransaction();
+		EntityTransaction entityTransaction = ENTITY_MANAGER.getTransaction();
 		entityTransaction.begin();
 
-		User user = entityManager.find(UserPersistence.class, userId.getValue())
+		User user = ENTITY_MANAGER.find(UserPersistence.class, userId.getValue())
 				.toUser();
 
 		entityTransaction.commit();

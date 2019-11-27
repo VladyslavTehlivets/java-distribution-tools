@@ -2,9 +2,11 @@ package lublin.umcs.thesis.api;
 
 import javax.naming.OperationNotSupportedException;
 import java.math.BigDecimal;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.util.List;
 
-public interface RentBoardGameService {
+public interface RentBoardGameService extends Remote {
 
-	BigDecimal rent(String userId, Long dayCount, String priceCurrency, List<String> gameNames) throws OperationNotSupportedException;
+	BigDecimal rent(String userId, Long dayCount, String priceCurrency, List<String> gameNames) throws OperationNotSupportedException, RemoteException;
 }

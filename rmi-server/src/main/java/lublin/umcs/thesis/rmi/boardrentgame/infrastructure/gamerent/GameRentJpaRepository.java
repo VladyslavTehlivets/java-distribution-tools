@@ -5,24 +5,18 @@ import lublin.umcs.thesis.boardrentgame.domain.rent.GameRentId;
 import lublin.umcs.thesis.boardrentgame.infrastructure.gamerent.GameRentRepository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
-import javax.persistence.PersistenceUnit;
+
+import static lublin.umcs.thesis.rmi.RmiServer.ENTITY_MANAGER;
 
 public class GameRentJpaRepository implements GameRentRepository {
 
-	@PersistenceUnit(unitName = "boardgame")
-	private EntityManagerFactory entityManagerFactory;
-
 	@Override
 	public GameRent loadGameRentId(final GameRentId gameRentId) {
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-		EntityTransaction entityTransaction = entityManager.getTransaction();
+		EntityTransaction entityTransaction = ENTITY_MANAGER.getTransaction();
 		entityTransaction.begin();
-		GameRent gameRent = entityManager.find(GameRentPersistence.class, gameRentId.getValue()).toGameRent();
+		GameRent gameRent = ENTITY_MANAGER.find(GameRentPersistence.class, gameRentId.getValue()).toGameRent();
 
 		entityTransaction.commit();
 
@@ -31,12 +25,11 @@ public class GameRentJpaRepository implements GameRentRepository {
 
 	@Override
 	public void save(final GameRent gameRent) {
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-		EntityTransaction entityTransaction = entityManager.getTransaction();
+		EntityTransaction entityTransaction = ENTITY_MANAGER.getTransaction();
 		entityTransaction.begin();
 
-		entityManager.merge(new GameRentPersistence(gameRent));
+		ENTITY_MANAGER.merge(new GameRentPersistence(gameRent));
 
 		entityTransaction.commit();
 	}
