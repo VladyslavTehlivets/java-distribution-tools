@@ -48,7 +48,7 @@ class BoardGameRentBusinessProcessTest {
 	}
 
 	@Test
-	void findGamesByIds() throws NamingException, RemoteException {
+	void shouldPassBusinessProcess() throws NamingException, RemoteException {
 		User user = new User(new UserId("11"), new UserName("Tehlivets"));
 
 		BoardGame game = BoardGame.builder()

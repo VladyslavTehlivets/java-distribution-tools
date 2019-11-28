@@ -39,7 +39,7 @@ class BoardGameRentBusinessProcessTest {
 	}
 
 	@Test
-	void findGamesByIds() throws NamingException, RemoteException, NotBoundException {
+	void shouldPassBusinessProcess() throws NamingException, RemoteException, NotBoundException {
 		RentBoardGameService rentBoardGameService = RentBoardGameServiceFactory.createServiceInstance();
 		RentBoardGameService rentBoardGameServiceStub = (RentBoardGameService) UnicastRemoteObject.exportObject(rentBoardGameService, 0);
 

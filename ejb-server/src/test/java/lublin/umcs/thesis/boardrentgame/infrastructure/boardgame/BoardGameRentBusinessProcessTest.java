@@ -52,7 +52,7 @@ class BoardGameRentBusinessProcessTest {
 	}
 
 	@Test
-	void findGamesByIds() throws NamingException {
+	void shouldPassBusinessProcess() throws NamingException {
 		User user = new User(new UserId("11"), new UserName("Tehlivets"));
 
 		BoardGame game = BoardGame.builder()
