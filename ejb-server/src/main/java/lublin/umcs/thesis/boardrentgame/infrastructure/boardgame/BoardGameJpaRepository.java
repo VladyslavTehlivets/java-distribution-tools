@@ -6,15 +6,19 @@ import lublin.umcs.thesis.boardrentgame.domain.boardgame.GameId;
 
 import javax.ejb.Local;
 import javax.ejb.Stateful;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.transaction.TransactionScoped;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Stateful
 @Local({ BoardGameRepository.class, DomainBoardGameRepository.class })
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class BoardGameJpaRepository implements BoardGameRepository, DomainBoardGameRepository {
 
   @PersistenceContext(unitName = "boardgame", type = PersistenceContextType.TRANSACTION)

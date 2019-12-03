@@ -10,12 +10,15 @@ import lublin.umcs.thesis.boardrentgame.infrastructure.gamerent.GameRentPersiste
 
 import javax.ejb.Local;
 import javax.ejb.Stateful;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
 @Stateful
 @Local
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class RentGameJpaRepository implements RentGameRepository {
 
 	@PersistenceContext(unitName = "boardgame", type = PersistenceContextType.TRANSACTION)
